@@ -893,7 +893,7 @@ async function joinDuelRoom(roomId) {
 
     if (!isReady) {
         const li = document.createElement("li");
-        li.innerText = "WAITING FOR TELEMETRY // LINK COPIED TO CLIPBOARD...";
+        li.innerText = "WAITING FOR TELEMETRY";
         hintsList.appendChild(li);
         setKeypadDisabled(true);
         setLockStatus("STANDBY", "status-locked");
