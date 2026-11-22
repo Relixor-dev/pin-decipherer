@@ -247,6 +247,7 @@ function buildDuelRematchButton() {
 }
 
 async function createPrivateDuelLink() {
+    if (matchmakeInterval) stopMatchmaking();
     const name = getDuelCodename();
     const res = await fetch("/duel/create", {
         method: "POST",
@@ -261,7 +262,6 @@ async function createPrivateDuelLink() {
     const url = window.location.origin + "/?duel=" + data.room_id;
     navigator.clipboard.writeText(url);
     playTone(740, 0.1, "triangle", 0.07);
-    alert("Private Duel link copied! Entering room now—send the link to your friend.");
     document.getElementById("duel-modal").classList.add("hidden");
     await joinDuelRoom(data.room_id);
 }
@@ -861,22 +861,6 @@ async function toggleMatchmaking() {
     if (!await pollQueue()) matchmakeInterval = setInterval(pollQueue, 2000);
 }
 
-async function createPrivateDuelLink() {
-    const name = getDuelCodename();
-    const res = await fetch("/duel/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name })
-    });
-    const data = await res.json();
-    const url = window.location.origin + "/?duel=" + data.room_id;
-    navigator.clipboard.writeText(url);
-    playTone(740, 0.1, "triangle", 0.07);
-    alert("Private Duel link copied! Entering room now, send the link to your friend.");
-    document.getElementById("duel-modal").classList.add("hidden");
-    await joinDuelRoom(data.room_id);
-}
-
 async function joinDuelRoom(roomId) {
     const name = agentHandle || ("AGENT_" + Math.floor(100 + Math.random() * 899));
     const res = await fetch("/duel/join", {
@@ -890,10 +874,9 @@ async function joinDuelRoom(roomId) {
     gameMode = "duel";
     duelRoomId = data.room_id;
     duelRole = data.role;
-    duelRound = 1
-    duelTimerLimit = data.timer || 0;
+    duelRound = 1;
     pinLength = data.length || 4;
-    duelTimerLimit > 0 ? startCountdown(duelTimerLimit) : startSpeedrunStopwatch();
+    duelTimerLimit = data.timer || 0;
     maxAttempts = 0;
     guessHistory = [];
     gameOver = false;
@@ -904,27 +887,42 @@ async function joinDuelRoom(roomId) {
     document.getElementById("duel-banner").classList.remove("hidden");
     document.getElementById("log").innerHTML = "";
 
+    const isReady = Boolean(data.host && data.guest);
     const hintsList = document.getElementById("hints-list");
     hintsList.innerHTML = "";
-    data.hints.forEach(function(h) {
-        const li = document.createElement("li");
-        li.innerText = h;
-        hintsList.appendChild(li);
-    });
 
-    setKeypadDisabled(false);
-    setLockStatus("DUEL LIVE", "status-locked");
+    if (!isReady) {
+        const li = document.createElement("li");
+        li.innerText = "WAITING FOR TELEMETRY // LINK COPIED TO CLIPBOARD...";
+        hintsList.appendChild(li);
+        setKeypadDisabled(true);
+        setLockStatus("STANDBY", "status-locked");
+        document.getElementById("duel-opp-label").innerText = "VS: WAITING FOR OPPONENT...";
+        document.getElementById("duel-opp-stats").innerText = "STANDBY";
+    } else {
+        data.hints.forEach(function(h) {
+            const li = document.createElement("li");
+            li.innerText = h;
+            hintsList.appendChild(li);
+        });
+        setKeypadDisabled(false);
+        setLockStatus("DUEL LIVE", "status-locked");
+        if (duelTimerLimit > 0) startCountdown(duelTimerLimit);
+        else startSpeedrunStopwatch();
+    }
+
     resetDigitMatrix();
     buildSlotPins();
     updateScreen();
     updateAttemptsDisplay(0, 0);
-    startSpeedrunStopwatch();
     updateStatsDisplay();
-    startDuelPolling();
+    startDuelPolling(!isReady);
 }
 
-function startDuelPolling() {
+function startDuelPolling(waitingForOpponent) {
     if (duelPollInterval) clearInterval(duelPollInterval);
+    let wasWaiting = Boolean(waitingForOpponent);
+
     const syncOnce = async function() {
         if (gameMode !== "duel" || !duelRoomId) { clearInterval(duelPollInterval); return; }
         const res = await fetch("/duel/sync", {
@@ -940,14 +938,32 @@ function startDuelPolling() {
         });
         const data = await res.json();
         if (data.error) return;
-        
+
         if (data.round && data.round > duelRound) {
             await requestDuelRematch();
             return;
         }
 
-        document.getElementById("duel-opp-label").innerText = "VS: " + data.opponent;
-        document.getElementById("duel-opp-stats").innerText = data.opponent_attempts + " GUESSES";
+        if (wasWaiting && data.ready) {
+            wasWaiting = false;
+            playTone(720, 0.14, "triangle", 0.08);
+            const hintsList = document.getElementById("hints-list");
+            hintsList.innerHTML = "";
+            (data.hints || []).forEach(function(h) {
+                const li = document.createElement("li");
+                li.innerText = h;
+                hintsList.appendChild(li);
+            });
+            setKeypadDisabled(false);
+            setLockStatus("DUEL LIVE", "status-locked");
+            if (duelTimerLimit > 0) startCountdown(duelTimerLimit);
+            else startSpeedrunStopwatch();
+        }
+
+        if (!wasWaiting) {
+            document.getElementById("duel-opp-label").innerText = "VS: " + data.opponent;
+            document.getElementById("duel-opp-stats").innerText = data.opponent_attempts + " GUESSES";
+        }
 
         if (data.winner && !gameOver) {
             gameOver = true;
@@ -968,17 +984,14 @@ function startDuelPolling() {
             entry.innerHTML = "<span>" + data.winner + " CRACKED IT FIRST (" + data.win_time + "s)</span>";
             const actions = document.createElement("div");
             actions.className = "action-group";
-            actions.appendChild(buildDuelRematchButton()); // <-- ADD REMATCH BUTTON HERE
-            actions.appendChild(buildMenuButton());
-            entry.appendChild(actions);
-            log.prepend(entry);
+            actions.appendChild(buildDuelRematchButton());
             actions.appendChild(buildMenuButton());
             entry.appendChild(actions);
             log.prepend(entry);
         }
     };
     syncOnce();
-    duelPollInterval = setInterval(syncOnce, 1800);
+    duelPollInterval = setInterval(syncOnce, 1500);
 }
 
 function readCustomInputs() {
