@@ -26,90 +26,97 @@
             <span class="streak-tag" id="start-streak">STREAK: 0</span>
         </div>
 
-        <h1 class="start-title">PIN DECIPHERER</h1>
-        <p class="start-subtitle">Analyze intercepted telemetry clues and bypass the keypad lock before security triggers.</p>
-
-        <div class="config-section">
-            <div class="config-label">SELECT SECURITY LEVEL</div>
-            <div class="segmented-group" id="difficulty-group">
-                <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'easy', this)">3-DIGIT</button>
-                <button type="button" class="seg-btn active" onclick="selectOption('difficulty', 'normal', this)">4-DIGIT</button>
-                <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'hard', this)">5-DIGIT</button>
-                <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'extreme', this)">6-DIGIT</button>
-            </div>
+        <div class="start-hero">
+            <h1 class="start-title">PIN DECIPHERER</h1>
+            <p class="start-subtitle">Analyze intercepted telemetry clues and bypass the keypad lock before security triggers.</p>
         </div>
 
-        <div class="config-section">
-            <div class="config-label">MAX OVERRIDE ATTEMPTS</div>
-            <div class="segmented-group" id="attempts-group">
-                <button type="button" class="seg-btn" onclick="selectOption('attempts', '2', this)">2</button>
-                <button type="button" class="seg-btn" onclick="selectOption('attempts', '3', this)">3</button>
-                <button type="button" class="seg-btn" onclick="selectOption('attempts', '5', this)">5</button>
-                <button type="button" class="seg-btn active" onclick="selectOption('attempts', '8', this)">8</button>
-                <button type="button" class="seg-btn" onclick="selectOption('attempts', '0', this)">∞</button>
-            </div>
-        </div>
+        <div class="start-layout-grid">
+            <div class="start-col-left">
+                <div class="config-section">
+                    <div class="config-label">SELECT SECURITY LEVEL</div>
+                    <div class="segmented-group" id="difficulty-group">
+                        <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'easy', this)">3-DIGIT</button>
+                        <button type="button" class="seg-btn active" onclick="selectOption('difficulty', 'normal', this)">4-DIGIT</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'hard', this)">5-DIGIT</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('difficulty', 'extreme', this)">6-DIGIT</button>
+                    </div>
+                </div>
 
-        <div class="config-section">
-            <div class="config-label">SPEEDRUN TIMER</div>
-            <div class="segmented-group" id="timer-group">
-                <button type="button" class="seg-btn active" onclick="selectOption('timer', '0', this)">OFF</button>
-                <button type="button" class="seg-btn" onclick="selectOption('timer', '15', this)">15s</button>
-                <button type="button" class="seg-btn" onclick="selectOption('timer', '30', this)">30s</button>
-                <button type="button" class="seg-btn" onclick="selectOption('timer', '45', this)">45s</button>
-            </div>
-        </div>
+                <div class="config-section">
+                    <div class="config-label">MAX OVERRIDE ATTEMPTS</div>
+                    <div class="segmented-group" id="attempts-group">
+                        <button type="button" class="seg-btn" onclick="selectOption('attempts', '2', this)">2</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('attempts', '3', this)">3</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('attempts', '5', this)">5</button>
+                        <button type="button" class="seg-btn active" onclick="selectOption('attempts', '8', this)">8</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('attempts', '0', this)">∞</button>
+                    </div>
+                </div>
 
-        <div class="config-section">
-            <div class="config-label">FIREWALL MUTATORS (+XP BONUS)</div>
-            <div class="mutator-grid three-col">
-                <button type="button" class="mutator-btn" id="mut-norepeat" onclick="toggleMutator('noRepeat', this)">
-                    NO-REPEAT (+3 XP)
-                </button>
-                <button type="button" class="mutator-btn" id="mut-timedrain" onclick="toggleMutator('timeDrain', this)">
-                    TIME DRAIN (+5 XP)
-                </button>
-                <button type="button" class="mutator-btn" id="mut-virus" onclick="toggleMutator('virusJam', this)">
-                    VIRUS JAM (+6 XP)
-                </button>
-            </div>
-        </div>
+                <div class="config-section">
+                    <div class="config-label">SPEEDRUN TIMER</div>
+                    <div class="segmented-group" id="timer-group">
+                        <button type="button" class="seg-btn active" onclick="selectOption('timer', '0', this)">OFF</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('timer', '15', this)">15s</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('timer', '30', this)">30s</button>
+                        <button type="button" class="seg-btn" onclick="selectOption('timer', '45', this)">45s</button>
+                    </div>
+                </div>
 
-        <div class="start-actions">
-            <button type="button" class="launch-btn" onclick="startGame('standard')">INITIATE BREACH &rarr;</button>
-            <div class="mode-category">
-                <div class="mode-cat-label">SPECIAL GAMEMODES</div>
-                <div class="mode-grid">
-                    <button type="button" class="mode-card-btn cyan" onclick="startGame('progressive')">PROGRESSIVE CLUES</button>
-                    <button type="button" class="mode-card-btn red" onclick="startGame('heist')">HEIST LADDER (3 STAGES)</button>
+                <div class="config-section">
+                    <div class="config-label">FIREWALL MUTATORS (+XP BONUS)</div>
+                    <div class="mutator-grid three-col">
+                        <button type="button" class="mutator-btn" id="mut-norepeat" onclick="toggleMutator('noRepeat', this)">
+                            NO-REPEAT (+10)
+                        </button>
+                        <button type="button" class="mutator-btn" id="mut-timedrain" onclick="toggleMutator('timeDrain', this)">
+                            TIME DRAIN (+15)
+                        </button>
+                        <button type="button" class="mutator-btn" id="mut-virus" onclick="toggleMutator('virusJam', this)">
+                            VIRUS JAM (+20)
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="mode-category">
-                <div class="mode-cat-label">DAILY CHALLENGES</div>
-                <div class="mode-grid">
-                    <button type="button" class="mode-card-btn amber" id="daily-start-btn" onclick="startGame('daily')">
-                        DAILY VAULT ({{ daily_solves }} SOLVED)
-                    </button>
-                    <button type="button" class="mode-card-btn green" onclick="startGame('daily_speed')">DAILY SPEEDRUN</button>
-                </div>
-            </div>
+            <div class="start-col-right">
+                <button type="button" class="launch-btn" onclick="startGame('standard')">INITIATE BREACH &rarr;</button>
 
-            <div class="mode-category">
-                <div class="mode-cat-label">// ONLINE &amp; SOCIAL</div>
-                <div class="mode-grid">
-                    <button type="button" class="mode-card-btn duel-btn" id="live-duel-btn" onclick="openDuelModal()">LIVE 1V1 DUEL</button>
-                    <button type="button" class="mode-card-btn purple" onclick="openCustomModal()">CREATE FRIEND VAULT</button>
+                <div class="mode-category">
+                    <div class="mode-cat-label">// SPECIAL GAMEMODES</div>
+                    <div class="mode-grid">
+                        <button type="button" class="mode-card-btn cyan" onclick="startGame('progressive')">PROGRESSIVE CLUES</button>
+                        <button type="button" class="mode-card-btn red" onclick="startGame('heist')">HEIST LADDER (3 STAGES)</button>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="footer-btn-row">
-                <button type="button" class="secondary-btn" onclick="openLeaderboard('xp')">LEADERBOARDS</button>
-                <button type="button" class="secondary-btn" onclick="openRules()">PROTOCOL / RULES</button>
+
+                <div class="mode-category">
+                    <div class="mode-cat-label">// DAILY CHALLENGES</div>
+                    <div class="mode-grid">
+                        <button type="button" class="mode-card-btn amber" id="daily-start-btn" onclick="startGame('daily')">
+                            DAILY VAULT ({{ daily_solves }} SOLVED)
+                        </button>
+                        <button type="button" class="mode-card-btn green" onclick="startGame('daily_speed')">DAILY SPEEDRUN</button>
+                    </div>
+                </div>
+
+                <div class="mode-category">
+                    <div class="mode-cat-label">// ONLINE &amp; SOCIAL</div>
+                    <div class="mode-grid">
+                        <button type="button" class="mode-card-btn duel-btn" id="live-duel-btn" onclick="openDuelModal()">LIVE 1V1 DUEL</button>
+                        <button type="button" class="mode-card-btn purple" onclick="openCustomModal()">CREATE FRIEND VAULT</button>
+                    </div>
+                </div>
+
+                <div class="footer-btn-row">
+                    <button type="button" class="secondary-btn" onclick="openLeaderboard('xp')">LEADERBOARDS</button>
+                    <button type="button" class="secondary-btn" onclick="openRules()">PROTOCOL / RULES</button>
+                </div>
             </div>
         </div>
     </div>
-</div>        
+
 <div class="modal-overlay hidden" id="profile-modal" onclick="closeProfileModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
         <div class="modal-header">
