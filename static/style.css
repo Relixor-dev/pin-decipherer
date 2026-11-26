@@ -1614,3 +1614,21 @@ body .start-screen .terminal-card {
         padding: 8px 4px;
     }
 }
+.start-layout-grid .mutator-btn {
+    white-space: normal !important;
+    line-height: 1.25;
+    padding: 8px 4px;
+    font-size: 0.68rem;
+}
+
+.start-layout-grid .mode-card-btn,
+.start-layout-grid .secondary-btn {
+    white-space: normal !important;
+    word-break: break-word;
+    padding: 10px 6px;
+    font-size: 0.72rem;
+}
+
+body .start-screen .terminal-card {
+    max-width: 980px !important;
+}

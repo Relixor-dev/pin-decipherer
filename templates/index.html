@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pin Decipherer</title>
+    <title>PIN DECIPHERER // Security Terminal</title>
     <meta name="description" content="Play PIN Decipherer online for free — a code-breaking logic puzzle game with Daily Vaults, Speedruns, and Live 1v1 Multiplayer Duels.">
     <meta name="google-site-verification" content="rfDsf0fbW7oLu3jXrwkm_jBTGeKKLI9KnWc3sYXlkYc" />
     <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='favicon.png') }}?v=3">
+    <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -116,7 +117,7 @@
             </div>
         </div>
     </div>
-
+</div>
 <div class="modal-overlay hidden" id="profile-modal" onclick="closeProfileModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
         <div class="modal-header">
@@ -125,7 +126,7 @@
         </div>
         <div class="profile-banner">
             <div>
-                <div class="profile-name" id="prof-name">AGENT</div>
+                <div class="profile-name" id="prof-name">ANON_AGENT</div>
                 <div class="profile-rank" id="prof-rank">SCRIPT KIDDIE</div>
             </div>
             <div class="profile-xp" id="prof-xp">0 XP</div>
@@ -178,41 +179,6 @@
     </div>
 </div>
 
-<div class="modal-overlay hidden" id="ranks-modal" onclick="closeRanksModal()">
-    <div class="modal-card" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h2>// CLEARANCE HIERARCHY</h2>
-            <button type="button" class="close-modal" onclick="closeRanksModal()">&times;</button>
-        </div>
-        <p class="modal-desc" id="rank-progress-text">Current XP: 0 XP</p>
-        <div class="xp-bar-track">
-            <div class="xp-bar-fill" id="xp-bar-fill" style="width: 0%;"></div>
-        </div>
-        <div class="ranks-list" id="ranks-list"></div>
-    </div>
-</div>
-
-<div class="modal-overlay hidden" id="leaderboard-modal" onclick="closeLeaderboard()">
-    <div class="modal-card" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h2>// GLOBAL LEADERBOARDS</h2>
-            <button type="button" class="close-modal" onclick="closeLeaderboard()">&times;</button>
-        </div>
-        <p class="modal-desc" id="lb-desc-text">Click any agent row to inspect their dossier.</p>
-        <small class="agent-name-note">Do not change your username after you sync xp.</small>
-        <div class="segmented-group lb-tabs">
-            <button type="button" class="seg-btn active" id="lb-tab-xp" onclick="switchLeaderboardTab('xp')">CLEARANCE XP</button>
-            <button type="button" class="seg-btn" id="lb-tab-speed" onclick="switchLeaderboardTab('speed')">DAILY SPEEDRUN</button>
-        </div>
-        <div class="config-section" id="lb-xp-submit">
-            <div class="config-label">AGENT CODENAME</div>
-            <input type="text" class="terminal-input" id="agent-handle-input" maxlength="14" placeholder="ANON_AGENT">
-            <button type="button" class="secondary-btn" onclick="postScoreToLeaderboard()">SYNC CLEARANCE XP</button>
-        </div>
-        <div class="ranks-list" id="leaderboard-list"></div>
-    </div>
-</div>
-
 <div class="modal-overlay hidden" id="duel-modal" onclick="closeDuelModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
         <div class="modal-header">
@@ -242,18 +208,48 @@
             </div>
         </div>
         <div class="start-actions">
-            <div class="start-actions">
             <button type="button" class="launch-btn" id="matchmake-btn" onclick="toggleMatchmaking()">FIND ONLINE MATCH (4D)</button>
             <button type="button" class="secondary-btn" id="private-duel-btn" onclick="createPrivateDuelLink()">CREATE PRIVATE DUEL LINK</button>
-
-        </div>
-    
-
         </div>
         <div class="duel-status-box hidden" id="duel-queue-status">Scanning global queue for online agents...</div>
     </div>
 </div>
 
+<div class="modal-overlay hidden" id="ranks-modal" onclick="closeRanksModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>// CLEARANCE HIERARCHY</h2>
+            <button type="button" class="close-modal" onclick="closeRanksModal()">&times;</button>
+        </div>
+        <p class="modal-desc" id="rank-progress-text">Current XP: 0 XP</p>
+        <div class="xp-bar-track">
+            <div class="xp-bar-fill" id="xp-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="ranks-list" id="ranks-list"></div>
+    </div>
+</div>
+
+<div class="modal-overlay hidden" id="leaderboard-modal" onclick="closeLeaderboard()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>// GLOBAL LEADERBOARDS</h2>
+            <button type="button" class="close-modal" onclick="closeLeaderboard()">&times;</button>
+        </div>
+        <div class="segmented-group lb-tabs">
+            <button type="button" class="seg-btn active" id="lb-tab-xp" onclick="switchLeaderboardTab('xp')">TOP XP</button>
+            <button type="button" class="seg-btn" id="lb-tab-speed" onclick="switchLeaderboardTab('speed')">DAILY SPEEDRUN</button>
+        </div>
+        <p class="modal-desc" id="lb-desc-text">Click any agent row to inspect their dossier.</p>
+        <small class="agent-name-note">Do not change your username after you sync xp.</small>
+        <div class="lb-submit-row" id="lb-xp-submit">
+            <input type="text" id="agent-handle-input" class="terminal-input" maxlength="14" placeholder="AGENT CODENAME">
+            <button type="button" class="launch-btn lb-post-btn" onclick="postScoreToLeaderboard()">SYNC XP</button>
+        </div>
+        <div class="ranks-list" id="leaderboard-list">
+            <div class="rank-row"><span>Loading global telemetry...</span></div>
+        </div>
+    </div>
+</div>
 <div class="modal-overlay hidden" id="rules-modal" onclick="closeRules()">
     <div class="modal-card rules-wide" onclick="event.stopPropagation()">
         <div class="modal-header">
@@ -277,43 +273,21 @@
 
         <div class="rules-section-title">2. DEDUCTION TOOLS &amp; MANUAL CHECKER</div>
         <ul class="rules-list">
+            <li><strong>Keyboard Typing:</strong> Use the numbers on your keyboard to type into the pin (PC Exclusive).</li>
             <li><strong>Slot Pins (?):</strong> Click any <code>?</code> slot above the screen to manually cycle and pin suspected digits (0–9) per position.</li>
             <li><strong>Manual Scratchpad:</strong> Use the left-panel notepad to jot down slot math or logic notes during a breach.</li>
             <li><strong>Digit Matrix:</strong> Auto-tracks every tested number across guesses so you never re-test ruled-out digits.</li>
             <li><strong>Emergency Decrypt:</strong> Sacrifice 1 attempt once per round to reveal an exact digit slot.</li>
-            <li><strong>Keyboard Typing:</strong> Use the numbers on your keyboard to type into the pin (PC Exclusive)</li>
         </ul>
 
         <div class="rules-section-title">3. GAME MODES &amp; FIREWALL MUTATORS</div>
         <ul class="rules-list">
             <li><strong>Progressive Clues:</strong> Starts with 1 clue and decrypts a new hint after each guess.</li>
             <li><strong>Heist Ladder:</strong> Beat 3 escalating stages (3, 4, then 5 digits) on a shared 60s clock.</li>
-            <li><strong>Daily Vault &amp; Daily Speedrun:</strong> Global daily puzzles—one ranked by daily solves, one raced against the stopwatch with no XP reward.</li>
-            <li><strong>Create Friend Vault:</strong> Set a custom 3–6 digit PIN, pick 0–5 clues, and share a challenge link.</li>
+            <li><strong>Daily Vault &amp; Daily Speedrun:</strong> Global daily puzzles—one ranked by daily solves, one raced against the stopwatch.</li>
+            <li><strong>Live 1v1 Duel &amp; Friend Vault:</strong> Race online opponents in real time or create custom 3–6 digit links for friends.</li>
             <li><strong>Mutators:</strong> Toggle <em>No-Repeat</em>, <em>Time Drain (-2s/miss)</em>, or <em>Virus Jam</em> (jams 1 random key per miss) for bonus XP.</li>
         </ul>
-    </div>
-</div>
-
-<div class="modal-overlay hidden" id="rules-modal" onclick="closeRules()">
-    <div class="modal-card" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h2>// BREACH PROTOCOL</h2>
-            <button type="button" class="close-modal" onclick="closeRules()">&times;</button>
-        </div>
-        <p class="modal-desc"><strong>Daily Speedrun:</strong> Race the stopwatch on a separate daily 4-digit PIN; it awards no XP.<br><strong>Virus Jam:</strong> Wrong guesses jam one random keypad digit for 1 turn.<br><strong>Slot Pins:</strong> Click any blank slot above the screen to pin suspected digits.</p>
-        <div class="example-row">
-            <span class="tile correct">7</span>
-            <span><strong>VERIFIED:</strong> Correct digit in the exact slot.</span>
-        </div>
-        <div class="example-row">
-            <span class="tile present">3</span>
-            <span><strong>SHIFTED:</strong> Digit is in the PIN, wrong slot.</span>
-        </div>
-        <div class="example-row">
-            <span class="tile absent">9</span>
-            <span><strong>INVALID:</strong> Digit is not in the PIN.</span>
-        </div>
     </div>
 </div>
 
@@ -321,7 +295,7 @@
     <div class="hud-bar">
         <div class="hud-left">
             <span class="status-dot pulse"></span>
-            <span class="hud-title" id="hud-mode-title">PIN_CRACKER</span>
+            <span class="hud-title" id="hud-mode-title">PIN_DECIPHERER</span>
             <button type="button" class="rank-hud-badge" id="hud-rank" onclick="openMyProfile()">SCRIPT KIDDIE</button>
         </div>
         <div class="hud-right">
@@ -349,9 +323,10 @@
         <main class="center-column">
             <div class="calculator" id="calculator-card">
                 <div class="duel-banner hidden" id="duel-banner">
-                    <span id="duel-opp-label">OPPONENT: SCANNING...</span>
-                    <strong id="duel-opp-stats">0 GUESSES</strong>
+                    <span id="duel-opp-label">VS: WAITING FOR OPPONENT...</span>
+                    <strong id="duel-opp-stats">STANDBY</strong>
                 </div>
+
                 <div class="telemetry-header">
                     <div class="telemetry-item">
                         <span class="tele-label">SYSTEM STATUS</span>
@@ -416,6 +391,6 @@
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='script.js') }}?v=restore-removed"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
