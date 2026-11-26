@@ -1568,3 +1568,49 @@ button, input, textarea {
         padding: 16px;
     }
 }
+/* Fix wide command center card & prevent button wrapping */
+body .start-screen .terminal-card {
+    max-width: 920px !important;
+    width: 95vw !important;
+}
+
+.start-layout-grid .segmented-group {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+}
+
+.start-layout-grid .seg-btn {
+    flex: 1;
+    white-space: nowrap;
+    padding: 9px 6px;
+    font-size: 0.74rem;
+}
+
+.start-layout-grid .mutator-btn {
+    white-space: nowrap;
+    padding: 9px 6px;
+    font-size: 0.7rem;
+}
+
+.start-layout-grid .mode-card-btn,
+.start-layout-grid .secondary-btn {
+    padding: 11px 8px;
+    font-size: 0.74rem;
+    line-height: 1.25;
+}
+
+.start-layout-grid .launch-btn {
+    white-space: nowrap;
+    padding: 13px 16px;
+}
+
+@media (max-width: 860px) {
+    body .start-screen .terminal-card {
+        max-width: 520px !important;
+    }
+    .start-layout-grid .seg-btn {
+        font-size: 0.7rem;
+        padding: 8px 4px;
+    }
+}
