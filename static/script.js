@@ -157,7 +157,7 @@ async function pollQueueStatus() {
         const res = await fetch("/duel/status");
         const data = await res.json();
         if (data.in_queue > 0) {
-            btn.innerText = "LIVE 1V1 DUEL (1 IN QUEUE)";
+            btn.innerHTML = 'LIVE 1V1 DUEL<span class="btn-sub">(1 IN QUEUE)</span>';
             btn.classList.add("has-queue");
         } else {
             btn.innerText = "LIVE 1V1 DUEL";
@@ -765,6 +765,7 @@ function updateStatsDisplay() {
     if (statCracked) statCracked.innerText = String(totalCracked);
     if (dailyBtn) dailyBtn.innerText = "DAILY VAULT (" + dailySolvesCount + " SOLVED)";
     if (dailySolvesEl) dailySolvesEl.innerText = String(dailySolvesCount);
+    if (dailyBtn) dailyBtn.innerHTML = 'DAILY VAULT<span class="btn-sub">(' + dailySolvesCount + ' SOLVED)</span>';
 
     const fwTags = [];
     if (mutNoRepeat && gameMode !== "daily" && gameMode !== "daily_speed" && gameMode !== "custom") fwTags.push("NO-REP");

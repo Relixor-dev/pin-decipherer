@@ -1632,3 +1632,42 @@ body .start-screen .terminal-card {
 body .start-screen .terminal-card {
     max-width: 980px !important;
 }
+/* Clean single-line words + intentional bracketed sub-labels */
+body .start-screen .terminal-card {
+    max-width: 1020px !important;
+    width: 96vw !important;
+}
+
+.start-layout-grid .mutator-btn,
+.start-layout-grid .mode-card-btn,
+.start-layout-grid .secondary-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+    white-space: nowrap !important;
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: clamp(0.66rem, 0.85vw, 0.76rem);
+    line-height: 1.25;
+}
+
+.btn-sub {
+    display: block;
+    font-size: 0.64rem;
+    opacity: 0.85;
+    margin-top: 2px;
+    font-weight: 700;
+}
+
+@media (max-width: 860px) {
+    .start-layout-grid .mutator-btn,
+    .start-layout-grid .mode-card-btn,
+    .start-layout-grid .secondary-btn {
+        font-size: 0.68rem;
+        padding: 8px 6px;
+    }
+}

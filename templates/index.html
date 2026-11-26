@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIN DECIPHERER // Security Terminal</title>
+    <title>Pin Decipherer</title>
     <meta name="description" content="Play PIN Decipherer online for free — a code-breaking logic puzzle game with Daily Vaults, Speedruns, and Live 1v1 Multiplayer Duels.">
     <meta name="google-site-verification" content="rfDsf0fbW7oLu3jXrwkm_jBTGeKKLI9KnWc3sYXlkYc" />
     <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='favicon.png') }}?v=3">
@@ -65,17 +65,17 @@
                     </div>
                 </div>
 
-                <div class="config-section">
+                                <div class="config-section">
                     <div class="config-label">FIREWALL MUTATORS (+XP BONUS)</div>
                     <div class="mutator-grid three-col">
                         <button type="button" class="mutator-btn" id="mut-norepeat" onclick="toggleMutator('noRepeat', this)">
-                            NO-REPEAT (+10)
+                            NO-REPEAT<span class="btn-sub">(+10 XP)</span>
                         </button>
                         <button type="button" class="mutator-btn" id="mut-timedrain" onclick="toggleMutator('timeDrain', this)">
-                            TIME DRAIN (+15)
+                            TIME DRAIN<span class="btn-sub">(+15 XP)</span>
                         </button>
                         <button type="button" class="mutator-btn" id="mut-virus" onclick="toggleMutator('virusJam', this)">
-                            VIRUS JAM (+20)
+                            VIRUS JAM<span class="btn-sub">(+20 XP)</span>
                         </button>
                     </div>
                 </div>
@@ -88,7 +88,9 @@
                     <div class="mode-cat-label">// SPECIAL GAMEMODES</div>
                     <div class="mode-grid">
                         <button type="button" class="mode-card-btn cyan" onclick="startGame('progressive')">PROGRESSIVE CLUES</button>
-                        <button type="button" class="mode-card-btn red" onclick="startGame('heist')">HEIST LADDER (3 STAGES)</button>
+                        <button type="button" class="mode-card-btn red" onclick="startGame('heist')">
+                            HEIST LADDER<span class="btn-sub">(3 STAGES)</span>
+                        </button>
                     </div>
                 </div>
 
@@ -96,7 +98,7 @@
                     <div class="mode-cat-label">// DAILY CHALLENGES</div>
                     <div class="mode-grid">
                         <button type="button" class="mode-card-btn amber" id="daily-start-btn" onclick="startGame('daily')">
-                            DAILY VAULT ({{ daily_solves }} SOLVED)
+                            DAILY VAULT<span class="btn-sub">({{ daily_solves }} SOLVED)</span>
                         </button>
                         <button type="button" class="mode-card-btn green" onclick="startGame('daily_speed')">DAILY SPEEDRUN</button>
                     </div>
@@ -115,7 +117,6 @@
                     <button type="button" class="secondary-btn" onclick="openRules()">PROTOCOL / RULES</button>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 <div class="modal-overlay hidden" id="profile-modal" onclick="closeProfileModal()">
